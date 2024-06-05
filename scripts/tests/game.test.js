@@ -1,9 +1,12 @@
 /**
  * @jest-environment jsdom
  */
+
 const { test } = require("picomatch");
-const { game } = require("../game");
+const { game, newGame } = require("../game");
 const { default: expect } = require("expect");
+const { describe } = require("yargs");
+const { beforeAll } = require("jest-circus");
 
 beforeAll(() => {
     let fs = require("fs");
@@ -13,20 +16,32 @@ beforeAll(() => {
     document.close();
 });
 
-describe("game object contains correct keys", () => {
-    test("score key exists", () => {
+describe("game object contains correct keys", () =>{
+    test("score key exists", () =>{
         expect("score" in game).toBe(true);
     });
-    test("currentGame key exists", () => {
+    test("currentGame key exists", () =>{
         expect("currentGame" in game).toBe(true);
     });
-    test("playerMoves key exists", () => {
+    test("playerMoves key exists", () =>{
         expect("playerMoves" in game).toBe(true);
     });
-    test("choices key exists", () => {
+    test("choices key exists", () =>{
         expect("choices" in game).toBe(true);
     });
-    test("choices contain correct ids", () => {
+    test("choices contain correct ids", () =>{
         expect(game.choices).toEqual(["button1", "button2", "button3", "button4"]);
+    });
+});
+
+describe("newGame works correctly", () =>{
+    beforeAll(() => {
+        game.score = 42;
+        game.playerMoves = ["button1", "button2"];
+        game.currentGame = ["button1", "button2"];
+        newGame();
+    });
+    test("should set the game score to zero", () => {
+        expect(game.score).toEqual(0);
     });
 });
