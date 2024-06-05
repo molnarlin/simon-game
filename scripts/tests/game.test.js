@@ -1,7 +1,9 @@
 /**
  * @jest-environment jsdom
  */
+const { test } = require("picomatch");
 const { game } = require("../game");
+const { default: expect } = require("expect");
 
 beforeAll(() => {
     let fs = require("fs");
@@ -14,5 +16,8 @@ beforeAll(() => {
 describe("game object contains correct keys", () => {
     test("score key exists", () => {
         expect("score" in game).toBe(true);
+    });
+    test("currentGame key exists", () => {
+        expect("currentGame" in game).toBe(true);
     });
 });
